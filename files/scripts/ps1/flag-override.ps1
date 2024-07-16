@@ -16,3 +16,5 @@ if ((test-path -path 'config.json') -eq $true){$s=(k(gc -Raw -Path .\config.json
 $n=k((gc -Raw -Path fflags.jsonc)-replace'(?m)(?<=^([^"]|"[^"]*")*)//.*'-replace'(?ms)/\*.*?\*/');
 
 ($n|convertto-json|format-json)>.\Modifications\ClientSettings\ClientAppSettings.json;
+
+$PSScriptRoot\BloxStrap.exe "$($args[0])"
