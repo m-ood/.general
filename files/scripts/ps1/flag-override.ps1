@@ -1,6 +1,5 @@
-&{$host.ui.rawui.BackgroundColor="Black";clear;};
+&{$host.ui.rawui.BackgroundColor="Black";clear;};cd $PSScriptRoot;
 
-cd $PSScriptRoot;
 
 function k($j){$h=@{};foreach($a in ($j|ConvertFrom-Json).PSObject.Properties){$h[$a.name]=$a.value};return $h};
 
@@ -8,13 +7,13 @@ function format-json([Parameter(Mandatory, ValueFromPipeline)][String] $json) {$
 
 
 
+if ((test-path -path '.\config.json') -eq $true){$s=(k(gc -Raw -Path .\config.json))} else {$s=@{}};
+if (($s.FflagsOverrideLocation -eq $null) -or ((test-path -path $s.FflagsOverrideLocation) -eq $false)){$s.FflagsOverrideLocation=".\fflags.jsonc";
+($s|convertto-json|format-json)>.\config.json;};
 
+if ((test-path -path $s.FflagsOverrideLocation) -eq $true) {
+    $n=k((gc -Raw -Path $s.FflagsOverrideLocation)-replace'(?m)(?<=^([^"]|"[^"]*")*)//.*'-replace'(?ms)/\*.*?\*/');
+    ($n|convertto-json|format-json)>.\Modifications\ClientSettings\ClientAppSettings.json;
+};
+& '.\BloxStrap.exe' "$($args[0])"
 
-if ((test-path -path 'config.json') -eq $true){$s=(k(gc -Raw -Path .\config.json))} else {$s=@{}};if (($s.FflagsOverrideLocation -eq $null) -or ((test-path -path $s.FflagsOverrideLocation) -eq $false)){$s.FflagsOverrideLocation=".\fflags.jsonc";($s|convertto-json|format-json)>.\config.json;};
-
-
-$n=k((gc -Raw -Path fflags.jsonc)-replace'(?m)(?<=^([^"]|"[^"]*")*)//.*'-replace'(?ms)/\*.*?\*/');
-
-($n|convertto-json|format-json)>.\Modifications\ClientSettings\ClientAppSettings.json;
-
-$PSScriptRoot\BloxStrap.exe "$($args[0])"
