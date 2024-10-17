@@ -13,7 +13,8 @@ if (($s.FflagsOverrideLocation -eq $null) -or ((test-path -path $s.FflagsOverrid
 
 if ((test-path -path $s.FflagsOverrideLocation) -eq $true) {
     $n=k((gc -Raw -Path $s.FflagsOverrideLocation)-replace'(?m)(?<=^([^"]|"[^"]*")*)//.*'-replace'(?ms)/\*.*?\*/');
-    ($n|convertto-json|format-json)>.\Modifications\ClientSettings\ClientAppSettings.json;
+    [IO.File]::WriteAllLines('.\Modifications\ClientSettings\ClientAppSettings.json',(($n|convertto-json|format-json)));
 };
 & '.\BloxStrap.exe' -player "$($args[0])"
+
 
