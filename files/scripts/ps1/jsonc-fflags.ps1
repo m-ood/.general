@@ -3,7 +3,7 @@ function format-json([Parameter(Mandatory, ValueFromPipeline)][String] $json) {$
 
 
 if ((test-path -path '.\config.json') -eq $true){$s=(k(gc -Raw -Path .\config.json))} else {$s=@{}};
-if (($s.FflagsOverrideLocation -eq $null) -or ((test-path -path $s.FflagsOverrideLocation) -eq $false)){$s.FflagsOverrideLocation=".\fflags.jsonc";
+if (($s.FflagsOverrideLocation -eq $null) -or ((test-path -path $s.FflagsOverrideLocation) -eq $false)){$s.FflagsOverrideLocation=".\fflags.jsonc"};
 [IO.File]::WriteAllLines(($pwd).path+"\config.json",($s|convertto-json|format-json));
 
 if ((test-path -path $s.FflagsOverrideLocation) -eq $true) {
