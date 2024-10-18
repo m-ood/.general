@@ -5,7 +5,7 @@ function format-json([Parameter(Mandatory, ValueFromPipeline)][String] $json) {$
 
 $s=@{};foreach($a in ((gc -Raw -Path .\settings.json)|ConvertFrom-Json).PSObject.Properties){$s[$a.name]=$a.value};
 for ($i=0; $i -lt $s.CustomIntegrations.Length; $i++) {if ($s.CustomIntegrations[$i].name -eq 'flag-override') {$int=1}};
-if ($int -eq $null){$s.CustomIntegrations+=(@{Name='flag-override';Location='cmd.exe';LaunchArgs='/c start /min "" powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -command "& sp -path ''Registry::HKCR\roblox-player\shell\open\command'' -name ''(Default)'' -value (''cmd.exe /c start /min \""\"" powershell.exe  -WindowStyle Hidden -ExecutionPolicy Bypass -file \""'' + $env:localappdata + ''\bloxstrap\flag-override.ps1\"" \""%1\""'') " ';AutoClose=$false});};
+if ($int -eq $null){$s.CustomIntegrations+=(@{Name='flag-override';Location='cmd.exe';LaunchArgs='/c start /min "" powershell.exe -WindowStyle Hidden -ExecutionPolicy Bypass -command "& sp -path ''Registry::HKCR\roblox-player\shell\open\command'' -name ''(Default)'' -value (''cmd.exe /c start /min \""\"" powershell.exe  -WindowStyle Hidden -ExecutionPolicy Bypass -file \""'' + $env:localappdata + ''\bloxstrap\strapon.ps1\"" \""%1\""'') " ';AutoClose=$false});};
 ($s|convertto-json)>.\settings.json
 if ((test-path -path '.\config.json') -eq $false){}; (@{FflagsOverrideLocation='.\fflags.jsonc'}|convertto-json|format-json)>.\config.json;
 if ((test-path -path '.\fflags.jsonc') -eq $false) {(gc -Raw -Path .\Modifications\ClientSettings\ClientAppSettings.json)>.\fflags.jsonc;};
