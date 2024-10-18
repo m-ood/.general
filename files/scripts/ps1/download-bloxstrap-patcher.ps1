@@ -32,4 +32,3 @@ if ((test-path -path '.\mods') -eq $false) {
 
 ## iex([System.Net.WebClient]::new()).downloadstring('https://raw.githubusercontent.com/m-ood/.general/refs/heads/main/files/scripts/ps1/download-bloxstrap-patcher.ps1');
 
-pause
