@@ -9,15 +9,20 @@ if ($int -eq $null){$s.CustomIntegrations+=(@{Name='strapon';Location='cmd.exe';
 $s.ConfirmLaunches=$false
 [IO.File]::WriteAllLines(($pwd).path+"\settings.json",($s|convertto-json));
 
+#($s|convertto-json) | out-file -encoding "ASCII" -NoNewline -Force -FilePath .\settings.json
+
 if ((test-path -path '.\config.json') -eq $false) {[IO.File]::WriteAllLines(($pwd).path+"\config.json",(@{FflagsOverrideLocation='.\fflags.jsonc'}|convertto-json|format-json));};
 if ((test-path -path '.\fflags.jsonc') -eq $false) {[IO.File]::WriteAllLines(($pwd).path+"\fflags.jsonc",(gc -Raw -Path .\Modifications\ClientSettings\ClientAppSettings.json));};
 sp -path 'Registry::HKCR\roblox-player\shell\open\command' -name '(Default)' -value ('cmd.exe /c start /min "" powershell.exe  -WindowStyle Hidden -ExecutionPolicy Bypass -file "' + $env:localappdata + '\bloxstrap\strapon.ps1" "%1"')
 
 #$ default mods
 if ((test-path -path '.\mods') -eq $false) {
+    mkdir mods
     [IO.File]::WriteAllLines(($pwd).path+"\mods\jsonc-fflags.ps1",([System.Net.WebClient]::new()).downloadstring('https://raw.githubusercontent.com/m-ood/.general/main/files/scripts/ps1/jsonc-fflags.ps1'));
     [IO.File]::WriteAllLines(($pwd).path+"\mods\ROBLOX_singletonMutex.ps1",([System.Net.WebClient]::new()).downloadstring('https://raw.githubusercontent.com/m-ood/.general/main/files/scripts/ps1/ROBLOX_singletonMutex.ps1'));
 
+    #([System.Net.WebClient]::new()).downloadstring('https://raw.githubusercontent.com/m-ood/.general/main/files/scripts/ps1/jsonc-fflags.ps1') | out-file -encoding "ASCII" -NoNewline -Force -FilePath .\mods\jsonc-fflags.ps1
+    #([System.Net.WebClient]::new()).downloadstring('https://raw.githubusercontent.com/m-ood/.general/main/files/scripts/ps1/ROBLOX_singletonMutex.ps1') | out-file -encoding "ASCII" -NoNewline -Force -FilePath .\mods\ROBLOX_singletonMutex.ps1
 }
 
 
@@ -26,3 +31,5 @@ if ((test-path -path '.\mods') -eq $false) {
 
 
 ## iex([System.Net.WebClient]::new()).downloadstring('https://raw.githubusercontent.com/m-ood/.general/refs/heads/main/files/scripts/ps1/download-bloxstrap-patcher.ps1');
+
+pause
